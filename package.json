@@ -1,0 +1,40 @@
+{
+  "name": "festival-mask-vote",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "npm run build && wrangler dev --local --port 8787",
+    "ui": "vite --host 0.0.0.0",
+    "build": "tsc --noEmit && vite build",
+    "test": "node --experimental-strip-types tests/security.test.ts && node --experimental-strip-types tests/api.test.ts && python3 -m unittest discover -s tests -p 'test_*.py' -v",
+    "test:api": "node --experimental-strip-types tests/api.test.ts",
+    "db:local": "wrangler d1 migrations apply festival-vote --local",
+    "db:remote": "wrangler d1 migrations apply festival-vote --remote",
+    "secrets:local": "node scripts/setup-secrets.mjs",
+    "deploy": "npm run build && wrangler deploy",
+    "test:workerd": "wrangler deploy --dry-run --outdir .worker-test && node tests/workerd.integration.mjs"
+  },
+  "dependencies": {
+    "lucide-react": "^0.468.0",
+    "qrcode.react": "^4.2.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261022.1",
+    "@tailwindcss/vite": "^4.1.0",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "miniflare": "^4.0.0",
+    "tailwindcss": "^4.1.0",
+    "typescript": "^5.9.0",
+    "vite": "^7.1.0",
+    "wrangler": "^4.45.0"
+  }
+}
